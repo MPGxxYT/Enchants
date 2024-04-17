@@ -1,0 +1,6 @@
+name: Explosive
+version: '${project.version}'
+main: me.mortaldev.explosive.Main
+api-version: '1.19'
+authors: [TotallyNotMortality]
+description: Plugin for explosive enchant.
