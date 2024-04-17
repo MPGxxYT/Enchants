@@ -72,7 +72,7 @@ public class CustomEnchant {
             // Add the new enchant at the end of the lore list
             itemLoreList.add(TextFormat.format(enchant.display + " " + level));
 
-        } else { // otherwise
+        } else {
 
             List<String> enchantsIDList = Enchants.getIDList();
             boolean lastWasEnchant = false;
@@ -100,6 +100,7 @@ public class CustomEnchant {
                     } else {
                         // Replace the current enchant level with the new higher level
                         LoreUtil.replaceLore(itemLoreList, i, TextFormat.format(enchant.display + " " + level));
+                        break;
                     }
                 } else {
                     String contentEnchantID = content.replaceAll("( \\d+)", "");
@@ -108,11 +109,13 @@ public class CustomEnchant {
                         // If there is no next line, add new enchant at the end
                         if (i + 1 >= itemLoreList.size()) {
                             itemLoreList.add(TextFormat.format(enchant.display + " " + level));
+                            break;
                         }
                         lastWasEnchant = true;
                     } else if (lastWasEnchant) {
                         // Add new enchant at the end of the enchant list
                         itemLoreList.add(i, TextFormat.format(enchant.display + " " + level));
+                        break;
                     }
                 }
             }
