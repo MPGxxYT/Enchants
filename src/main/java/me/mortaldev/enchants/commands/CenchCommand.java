@@ -1,9 +1,9 @@
-package me.mortaldev.explosive.commands;
+package me.mortaldev.enchants.commands;
 
-import me.mortaldev.explosive.modules.CustomEnchant;
-import me.mortaldev.explosive.modules.Enchants;
-import me.mortaldev.explosive.utils.base.CommandHandler;
-import me.mortaldev.explosive.utils.base.TextFormat;
+import me.mortaldev.enchants.modules.CustomEnchant;
+import me.mortaldev.enchants.modules.Enchants;
+import me.mortaldev.enchants.utils.base.CommandHandler;
+import me.mortaldev.enchants.utils.base.TextFormat;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

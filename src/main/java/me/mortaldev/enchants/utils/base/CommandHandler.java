@@ -1,6 +1,6 @@
-package me.mortaldev.explosive.utils.base;
+package me.mortaldev.enchants.utils.base;
 
-import me.mortaldev.explosive.Main;
+import me.mortaldev.enchants.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.command.defaults.BukkitCommand;

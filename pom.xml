@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>me.mortaldev</groupId>
-  <artifactId>Explosive</artifactId>
+  <artifactId>Enchants</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Explosive</name>
+  <name>Enchants</name>
 
     <description>Plugin for explosive enchant.</description>
     <properties>

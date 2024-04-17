@@ -1,6 +1,6 @@
-package me.mortaldev.explosive;
+package me.mortaldev.enchants;
 
-import me.mortaldev.explosive.commands.CenchCommand;
+import me.mortaldev.enchants.commands.CenchCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {

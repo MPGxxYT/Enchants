@@ -1,6 +1,6 @@
-package me.mortaldev.explosive.utils.base;
+package me.mortaldev.enchants.utils.base;
 
-import me.mortaldev.explosive.utils.records.Pair;
+import me.mortaldev.enchants.utils.records.Pair;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;

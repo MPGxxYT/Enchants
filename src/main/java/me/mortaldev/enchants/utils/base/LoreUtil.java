@@ -1,4 +1,4 @@
-package me.mortaldev.explosive.utils.base;
+package me.mortaldev.enchants.utils.base;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;

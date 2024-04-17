@@ -1,7 +1,7 @@
-package me.mortaldev.explosive.modules;
+package me.mortaldev.enchants.modules;
 
-import me.mortaldev.explosive.utils.base.LoreUtil;
-import me.mortaldev.explosive.utils.base.TextFormat;
+import me.mortaldev.enchants.utils.base.LoreUtil;
+import me.mortaldev.enchants.utils.base.TextFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Tag;
