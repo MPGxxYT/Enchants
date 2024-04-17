@@ -11,14 +11,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        // DEPENDENCIES
-
-//        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null){
-//            getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
-//            Bukkit.getPluginManager().disablePlugin(this);
-//            return;
-//        }
-
         plugin = this;
 
         // DATA FOLDER
@@ -26,16 +18,6 @@ public final class Main extends JavaPlugin {
         if (!getDataFolder().exists()){
             getDataFolder().mkdir();
         }
-
-        // CONFIGS
-//        WildConfig.loadConfig(true);
-//        MainConfig.loadConfig(true);
-
-
-        // Events
-//        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-//        getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
-
 
         // COMMANDS
 
