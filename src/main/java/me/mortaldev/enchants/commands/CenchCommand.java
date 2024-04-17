@@ -12,6 +12,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CenchCommand class is responsible for handling the "/cench" command. It allows players to add a custom enchant
+ * with a specific level to the item they are holding.
+ */
 public class CenchCommand {
     public CenchCommand() {
         new CommandHandler("cench", -1, true) {
@@ -66,7 +70,7 @@ public class CenchCommand {
 
             @Override
             public String getPermission() {
-                return "explosive.cench";
+                return "enchant.cench";
             }
 
             @Override
@@ -76,7 +80,9 @@ public class CenchCommand {
 
             @Override
             public @NotNull List<String> getAliases() {
-                return new ArrayList<>();
+                return new ArrayList<>(){{
+                   add("customEnchant");
+                }};
             }
         };
 

@@ -41,54 +41,58 @@ public class TextFormat {
     //             ||        ||          ||
 
     /**
-     * Splits the given string by "##" and formats it according to the specified tags and values.
+     * Converts the given input string to a parameterized form by identifying tagged clusters in the input.
+     * Tagged clusters are parts of the string that start with a recognized key from Types enum followed by '##'.
+     * This function throws an IllegalArgumentException if the input string is null.
      *
-     * @param str the string to be formatted
-     * @return the formatted string
+     * @param str the input string that needs to be parameterized.
+     * @return a parameterized version of the input string.
+     * @throws IllegalArgumentException if input string is null.
      */
     public static String asParam(String str) {
-        if (str == null) { throw new IllegalArgumentException("Input string cannot be null."); }
+        if (str == null) {
+            throw new IllegalArgumentException("Input string cannot be null.");
+        }
 
-        // Holds the split strings and their associated tags and values.
+        // Maps each cluster's start position to its key tag and value text.
         HashMap<Integer, Pair<String, String>> clusters = new HashMap<>();
-        // Get all the keys from Types enum
+
+        // Get the list of recognized keys from Types enum.
         List<String> keys = Arrays.stream(Types.getKeys()).toList();
 
-        // Split the string on '##'.
+        // Split the input string into potential clusters. Cluster may start with a key.
         String[] split = str.split("##");
 
-        // Loop over the split string.
+        // Loop over potential clusters and store recognized ones in the map.
         for (int i = 0; i < split.length; i++) {
-            // Fill the clusters with appropriate entries.
             addToClusters(i, split[i], keys, clusters);
         }
 
-        // Used to build up the output string.
-        String past_text = "";
-        // The final output string list.
+        // Holds the output string for each processed cluster.
         List<String> out = new ArrayList<>();
+        // Placeholder for detected key in the last recognized cluster.
+        String past_key = "";
 
-        // Process all entries in the clusters map.
+        // Process each recognized cluster based on its key and formulate the output string.
         for (Map.Entry<Integer, Pair<String, String>> entry : clusters.entrySet()) {
-            // Grabs the text from the clusters according to the protocol.
-            past_text = processClusterEntry(entry, past_text, clusters, out);
+            past_key = processClusterEntry(entry, past_key, clusters, out);
         }
 
-        // Join all the strings in `out` together and return the result.
+        // Join all parts of the parameterized string together and return the result.
         return String.join("", out);
     }
 
-    // Helper function to fill the clusters with appropriate entries.
+
     private static void addToClusters(int index, String str, List<String> keys, HashMap<Integer, Pair<String, String>> clusters) {
         String tag = "";
         String value = "";
-        // If the string is at least 4 characters long
+
+        // If the string is at least 4 characters long,
         if (str != null && str.length() >= 4){
-            // Grab the tag and value from the string
             tag = str.substring(0, 4);
             value = str.substring(4);
         }
-        // Put the entry in the clusters. If tag exists, use the tag and value, otherwise use "text" as the tag
+        // Put the entry in the clusters. If a recognized tag is found, use the tag and value, otherwise use "text" as the tag
         if (keys.contains(tag)){
             clusters.put(index, new Pair<>(tag, value));
         } else {
@@ -96,7 +100,8 @@ public class TextFormat {
         }
     }
 
-    // Processes a single cluster entry.
+
+
     private static String processClusterEntry(Map.Entry<Integer, Pair<String, String>> entry, String past_text, HashMap<Integer, Pair<String, String>> clusters, List<String> out) {
         int index = entry.getKey();
         String tag = getValueFromEntry(entry, 'k');
@@ -142,76 +147,46 @@ public class TextFormat {
 
 
     /**
-     * Converts a given string to a formatted string using MiniMessage format tags based on provided options.
-     * Replaces instances of "&nl" with "<newline>".
-     * Replaces hexadecimal HTML character references with the corresponding format.
-     * Replaces color tags with the corresponding format from the Colors enum.
-     * Replaces decoration tags with the corresponding format from the Decorations enum.
+     * Converts a string to the MiniMessage format based on provided options.
+     * Replaces occurrences of "&nl" with "<newline>".
+     * Replaces hexadecimal character references with corresponding formatting.
+     * Replaces color and decoration tags with corresponding MiniMessage tags.
+     * <p>
+     * This method assumes that the `str` parameter is not null.
      *
-     * @param str the string to be formatted
-     * @param disableReset whether to disable the reset tag or not
-     * @return the formatted string
+     * @param str  The string to format; assumed to be not null.
+     * @param disableReset If true, reset tag ("<reset>") will not be inserted before every color tag.
+     *                     This can be used to maintain color formatting across multiple strings.
+     * @return The MiniMessage formatted string.
      */
     public static String asString(String str, boolean disableReset){
-        // Create a StringBuilder from the input string for efficient string manipulation
         StringBuilder stringBuilder = new StringBuilder(str);
+        stringBuilder.replace(0, stringBuilder.length(), str.replace("&nl", "<newline>"));
 
-        // Replace all instances of "&nl" with "<newline>"
-        stringBuilder.replace(0, stringBuilder.length(),
-                stringBuilder.toString().replace("&nl", "<newline>"));
-
-        // Define a regular expression pattern to match hexadecimal HTML character references
+        // Parse and replace HTML-style hexadecimal color references.
         Pattern hexPattern = Pattern.compile("&#(.{6})");
-        // Create a Matcher object with the input string.
         Matcher hexMatcher = hexPattern.matcher(str);
-
-        // Find each occurrence of the pattern in the input string
         while (hexMatcher.find()){
-            // Extract the hexadecimal code from the Matcher
             String hexCode = hexMatcher.group(1);
-            // Replace the matched hexadecimal HTML character reference with the desired format
             stringBuilder.replace(0, stringBuilder.length(),
                     stringBuilder.toString().replace("&#" + hexCode, "<#" + hexCode + ">"));
         }
 
-        // For each possible color in the Colors enum
+        // Replace color format references
         for (Colors color : Colors.values()) {
-            // Define the key and value to be used in the replacement
             String key = "&" + color.getKey();
-            String value = disableReset ?
-                    "<" + color.getValue() + ">" :    // if disableReset is true, don't insert a reset
-                    "<reset><" + color.getValue() + ">";  // if disableReset is false, insert a reset before the color
-            // Replace the key with the value in the StringBuilder
-            stringBuilder.replace(0, stringBuilder.length(),
-                    stringBuilder.toString().replace(key, value));
+            String value = disableReset ? "<" + color.getValue() + ">" : "<reset><" + color.getValue() + ">";
+            stringBuilder.replace(0, stringBuilder.length(), stringBuilder.toString().replace(key, value));
         }
 
-        // Follow similar steps for each possible decoration in the Decorations enum
+        // Replace decoration format references
         for (Decorations decoration : Decorations.values()) {
             String key = "&" + decoration.getKey();
             String value = "<" + decoration.getValue() + ">";
-            stringBuilder.replace(0, stringBuilder.length(),
-                    stringBuilder.toString().replace(key, value));
+            stringBuilder.replace(0, stringBuilder.length(), stringBuilder.toString().replace(key, value));
         }
 
-        // Convert the final StringBuilder to a String and return it
         return stringBuilder.toString();
-    }
-
-    /**
-     * Replaces all occurrences of a specified string with another string in a StringBuilder.
-     *
-     * @param sb the StringBuilder in which the replacements should be made
-     * @param from the string to be replaced
-     * @param to the replacement string
-     */
-    public static void replaceAll(StringBuilder sb, String from, String to) {
-        int index = sb.indexOf(from);
-        while (index != -1) {
-            sb.replace(index, index + from.length(), to);
-            index += to.length(); // Move to the end of the replacement
-            index = sb.indexOf(from, index);
-        }
     }
 
     public enum Types {

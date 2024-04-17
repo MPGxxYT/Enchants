@@ -3,6 +3,10 @@ package me.mortaldev.enchants.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * The Enchants class represents different types of enchantments.
+ */
 public enum Enchants {
     EXPLOSIVE("Explosive", "&cExplosive", -1,"Explodes all blocks around the broken block."),
     FREEZE("Freeze", "&3Freeze", 5,"Will freeze the blocks around the broken blocks.");
@@ -19,6 +23,11 @@ public enum Enchants {
         this.description = description;
     }
 
+    /**
+     * Returns a list of all IDs of the Enchants.
+     *
+     * @return a list of all IDs of the Enchants
+     */
     public static List<String> getIDList(){
         List<String> list = new ArrayList<>();
         for (Enchants value : Enchants.values()) {
@@ -27,9 +36,16 @@ public enum Enchants {
         return list;
     }
 
-    public static Enchants getEnchantByID(String string){
+
+    /**
+     * Retrieves the Enchants enum value corresponding to the given ID.
+     *
+     * @param id the ID of the enchantment
+     * @return the Enchants enum value with the given ID, or null if no matching enchantment is found
+     */
+    public static Enchants getEnchantByID(String id){
         for (Enchants value : Enchants.values()) {
-            if (value.id.equalsIgnoreCase(string)) {
+            if (value.id.equalsIgnoreCase(id)) {
                 return value;
             }
         }
