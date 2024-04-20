@@ -1,6 +1,7 @@
 package me.mortaldev.enchants;
 
 import me.mortaldev.enchants.commands.CenchCommand;
+import me.mortaldev.enchants.listeners.BreakBlock;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -18,6 +19,10 @@ public final class Main extends JavaPlugin {
         if (!getDataFolder().exists()){
             getDataFolder().mkdir();
         }
+
+        // Events / Listeners
+        getServer().getPluginManager().registerEvents(new BreakBlock(), this);
+
 
         // COMMANDS
 

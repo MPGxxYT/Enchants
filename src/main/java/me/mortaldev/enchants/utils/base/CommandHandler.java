@@ -33,8 +33,6 @@ public abstract class CommandHandler extends BukkitCommand implements CommandExe
     }
     public CommandHandler(@NotNull String command, int minArguments, int maxArguments, boolean playerOnly) {
         super(command);
-        // I think it sets "this" to the result of super(command)
-        // Basically: new BukkitCommand(command)
 
         this.minArguments = minArguments;
         this.maxArguments = maxArguments;
@@ -56,7 +54,6 @@ public abstract class CommandHandler extends BukkitCommand implements CommandExe
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
         return onTabComplete(sender, alias, args);
     }
-
 
     public CommandMap getCommandMap() {
         return Bukkit.getServer().getCommandMap();

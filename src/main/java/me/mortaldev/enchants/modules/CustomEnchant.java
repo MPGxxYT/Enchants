@@ -1,5 +1,6 @@
 package me.mortaldev.enchants.modules;
 
+import me.mortaldev.enchants.modules.enchants.Enchants;
 import me.mortaldev.enchants.utils.base.LoreUtil;
 import me.mortaldev.enchants.utils.base.TextFormat;
 import net.kyori.adventure.text.Component;
@@ -15,7 +16,7 @@ import java.util.List;
 public class CustomEnchant {
 
     // Index to start the enchants at in the lore.
-    private static final int DEFAULT_ENCHANT_INDEX = 1;
+    private static final int DEFAULT_ENCHANT_INDEX = 0;
 
     // Error Messages
     private static final String INVALID_LEVEL_ERROR = "&cGiven level is invalid.";
@@ -50,17 +51,6 @@ public class CustomEnchant {
         }
     }
 
-    /**
-     * Checks the lore of the given item and either adds the new enchant
-     * or updates the existing one with a higher level if possible.
-     * Returns null if the enchanting process encounters an error.
-     *
-     * @param item the item to be enchanted
-     * @param enchant the enchant to be applied
-     * @param level the level of the enchant to be applied
-     * @param player the player receiving the error messages
-     * @return a list of lore components after applying the enchant, or null if an error occurred
-     */
     private static List<Component> getItemListWithEnchant(ItemStack item, Enchants enchant, Integer level, Player player) {
         List<Component> itemLoreList = item.lore();
 
@@ -70,7 +60,7 @@ public class CustomEnchant {
                 itemLoreList.add(TextFormat.format("&7-"));
             }
             // Add the new enchant at the end of the lore list
-            itemLoreList.add(TextFormat.format(enchant.display + " " + level));
+            itemLoreList.add(TextFormat.format(enchant.getDisplay() + " " + level));
 
         } else {
 
@@ -99,7 +89,7 @@ public class CustomEnchant {
                         return null; // Enchant already exists at this or higher level
                     } else {
                         // Replace the current enchant level with the new higher level
-                        LoreUtil.replaceLore(itemLoreList, i, TextFormat.format(enchant.display + " " + level));
+                        LoreUtil.replaceLore(itemLoreList, i, TextFormat.format(enchant.getDisplay() + " " + level));
                         break;
                     }
                 } else {
@@ -108,13 +98,13 @@ public class CustomEnchant {
                     if (enchantsIDList.contains(contentEnchantID)) {
                         // If there is no next line, add new enchant at the end
                         if (i + 1 >= itemLoreList.size()) {
-                            itemLoreList.add(TextFormat.format(enchant.display + " " + level));
+                            itemLoreList.add(TextFormat.format(enchant.getDisplay() + " " + level));
                             break;
                         }
                         lastWasEnchant = true;
                     } else if (lastWasEnchant) {
                         // Add new enchant at the end of the enchant list
-                        itemLoreList.add(i, TextFormat.format(enchant.display + " " + level));
+                        itemLoreList.add(i, TextFormat.format(enchant.getDisplay() + " " + level));
                         break;
                     }
                 }
@@ -122,8 +112,6 @@ public class CustomEnchant {
         }
         return itemLoreList;
     }
-
-
 
     private static void addEnchantToItem(Player player, ItemStack item, List<Component> itemLoreList, Enchants enchant, Integer level) {
         if (enchant.getMaxLevel() < 0 || level <= enchant.getMaxLevel()) {
@@ -141,6 +129,24 @@ public class CustomEnchant {
         } catch (NumberFormatException e) {
             Bukkit.getLogger().warning("Failed to enchant: Invalid enchant level found on pickaxe.");
             player.sendMessage(TextFormat.format(GENERAL_ERROR));
+            currentLevel = -1;
+        }
+        return currentLevel;
+    }
+
+    /**
+     * Retrieves the current level of a specific enchantment from the given content.
+     *
+     * @param content    the lore content to extract the enchantment level from
+     * @param enchantID  the ID of the enchantment
+     * @return the current level of the enchantment, or -1 if the level is invalid
+     */
+    public static int getCurrentLevel(String content, String enchantID) {
+        int currentLevel;
+        try {
+            currentLevel = Integer.parseInt(content.substring(enchantID.length() + 1));
+        } catch (NumberFormatException e) {
+            Bukkit.getLogger().warning("Failed to enchant: Invalid enchant level found on pickaxe.");
             currentLevel = -1;
         }
         return currentLevel;

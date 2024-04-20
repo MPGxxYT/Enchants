@@ -1,4 +1,4 @@
-package me.mortaldev.enchants.modules;
+package me.mortaldev.enchants.modules.enchants;
 
 import java.util.ArrayList;
 import java.util.List;

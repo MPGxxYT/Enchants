@@ -1,7 +1,7 @@
 package me.mortaldev.enchants.commands;
 
 import me.mortaldev.enchants.modules.CustomEnchant;
-import me.mortaldev.enchants.modules.Enchants;
+import me.mortaldev.enchants.modules.enchants.Enchants;
 import me.mortaldev.enchants.utils.base.CommandHandler;
 import me.mortaldev.enchants.utils.base.TextFormat;
 import org.bukkit.command.CommandSender;
@@ -81,7 +81,7 @@ public class CenchCommand {
             @Override
             public @NotNull List<String> getAliases() {
                 return new ArrayList<>(){{
-                   add("customEnchant");
+                   add("customenchant");
                 }};
             }
         };
