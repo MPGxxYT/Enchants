@@ -26,6 +26,10 @@ public class Explosive {
         this.explosivenessLevel = level + STARTING_EXPLOSION_RADIUS;
     }
 
+    /**
+     * Causes an explosive object to explode, breaking blocks in a certain radius and creating explosion particles and sounds.
+     * This method should be called to initiate the explosion.
+     */
     public void explode() {
         explodeRadius();
         showExplodeParticle();
