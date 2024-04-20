@@ -44,8 +44,7 @@ public class BreakBlock implements Listener {
                 new Explosive(
                         event.getBlock(), CustomEnchant.getCurrentLevel(loreContent, Enchants.EXPLOSIVE.getId()))
                         .explode();
-            }
-            if (loreContent.contains(Enchants.FREEZE.getId())) {
+            } else if (loreContent.contains(Enchants.FREEZE.getId())) {
                 new Freeze();
             }
         }

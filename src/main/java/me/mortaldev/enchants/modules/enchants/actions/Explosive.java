@@ -40,11 +40,11 @@ public class Explosive {
     }
 
     private void showExplodeParticle() {
-        new ParticleBuilder(Particle.EXPLOSION_LARGE).location(block.getLocation()).spawn();
+        new ParticleBuilder(Particle.EXPLOSION_LARGE).location(block.getLocation().toCenterLocation()).spawn();
     }
 
     private void playExplodeSound() {
-        float volume = (float) (0.2 * explosivenessLevel - STARTING_EXPLOSION_RADIUS);
+        float volume = (float) (0.2 * (explosivenessLevel - STARTING_EXPLOSION_RADIUS));
         block.getWorld().playSound(block.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, volume, 1);
     }
 
